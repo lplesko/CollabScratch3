@@ -18,14 +18,14 @@ body, #viewDiv {
   height: 100%;
 }
 
-#years-filter {
+#months-filter {
   height: 160px;
   width: 100%;
   background-color: white;
   visibility: hidden;
 }
 
-.year-item {
+.month-item {
   background-color: rgba(50,50,50,0.5);
   color: #fff;
   margin: 1px;
@@ -37,7 +37,7 @@ body, #viewDiv {
   height: 40px;
 }
 
-.visible-year {
+.visible-month {
   color: #fff;
   background-color: rgba(50,50,50,0.9);
 }
