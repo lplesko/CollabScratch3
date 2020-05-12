@@ -21,7 +21,7 @@ import { months } from "./constants";
       id: "39eaa391a04e497c8ece630609a5b01f"
     },
     outFields: [ "MonthName" ]
-  });
+  }); 
 
   const countiesLayer = new FeatureLayer({
     title: "counties",
