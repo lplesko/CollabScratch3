@@ -38,23 +38,23 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
     var _this = this;
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(_this, void 0, void 0, function () {
-        function filterByYear(event) {
-            var selectedYear = event.target.getAttribute("data-year");
-            yearsNodes.forEach(function (node) {
-                var year = node.innerText;
-                if (year !== selectedYear) {
-                    if (node.classList.contains("visible-year")) {
-                        node.classList.remove("visible-year");
+        function filterByMonth(event) {
+            var selectedMonth = event.target.getAttribute("data-month");
+            monthsNodes.forEach(function (node) {
+                var month = node.innerText;
+                if (month !== selectedMonth) {
+                    if (node.classList.contains("visible-month")) {
+                        node.classList.remove("visible-month");
                     }
                 }
                 else {
-                    if (!node.classList.contains("visible-year")) {
-                        node.classList.add("visible-year");
+                    if (!node.classList.contains("visible-month")) {
+                        node.classList.add("visible-month");
                     }
                 }
             });
             layerView.filter = new FeatureFilter({
-                where: "Year = '" + selectedYear + "'"
+                where: "Month = '" + selectedMonth + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -117,7 +117,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                     statisticType: "count"
                                 })
                             ];
-                            query.groupByFieldsForStatistics = ["YEAR + '-' + MonthName"];
+                            query.groupByFieldsForStatistics = ["MonthName"];
                             query.geometry = geometry;
                             query.distance = distance;
                             query.units = units;
@@ -127,11 +127,9 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             queryResponse = _a.sent();
                             responseChartData = queryResponse.features.map(function (feature) {
                                 var timeSpan = feature.attributes["EXPR_1"].split("-");
-                                var year = timeSpan[0];
-                                var month = timeSpan[1];
+                                var month = timeSpan[0];
                                 return {
                                     month: month,
-                                    year: year,
                                     value: feature.attributes.value
                                 };
                             });
@@ -154,17 +152,15 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                     statisticType: "count"
                                 })
                             ];
-                            query.groupByFieldsForStatistics = ["YEAR + '-' + MonthName"];
+                            query.groupByFieldsForStatistics = ["MonthName"];
                             return [4 /*yield*/, layer.queryFeatures(query)];
                         case 1:
                             queryResponse = _a.sent();
                             responseChartData = queryResponse.features.map(function (feature) {
                                 var timeSpan = feature.attributes["EXPR_1"].split("-");
-                                var year = timeSpan[0];
-                                var month = timeSpan[1];
+                                var month = timeSpan[0];
                                 return {
                                     month: month,
-                                    year: year,
                                     value: feature.attributes.value
                                 };
                             });
@@ -175,10 +171,9 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
         }
         function createDataObjects(data) {
             var formattedChartData = [];
-            constants_1.months.forEach(function (month, t) {
-                constants_1.years.forEach(function (year, s) {
+                constants_1.months.forEach(function (month, s) {
                     var matches = data.filter(function (datum) {
-                        return datum.year === year && datum.month === month;
+                        return datum.month === month;
                     });
                     formattedChartData.push({
                         col: t,
@@ -186,7 +181,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         value: matches.length > 0 ? matches[0].value : 0
                     });
                 });
-            });
             return formattedChartData;
         }
         function resetVisuals() {
@@ -196,12 +190,12 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 highlight.remove();
                 highlight = null;
             }
-            yearsNodes.forEach(function (node) {
-                node.classList.add("visible-year");
+            monthsNodes.forEach(function (node) {
+                node.classList.add("visible-month");
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, countiesLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, countiesLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var layer, countiesLayer, map, view, monthsElement, chartExpand, monthsExpand, layerView, countiesLayerView, layerStats, monthsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -209,7 +203,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         portalItem: {
                             id: "3a8aae65f6d64c9dacce3049ebe32f0c"
                         },
-                        outFields: ["MonthName", "YEAR"]
+                        outFields: ["MonthName"]
                     });
                     countiesLayer = new FeatureLayer({
                         title: "counties",
@@ -243,21 +237,21 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     return [4 /*yield*/, view.when()];
                 case 1:
                     _a.sent();
-                    yearsElement = document.getElementById("years-filter");
-                    yearsElement.style.visibility = "visible";
+                    monthsElement = document.getElementById("months-filter");
+                    monthsElement.style.visibility = "visible";
                     chartExpand = new Expand({
                         view: view,
                         content: document.getElementById("chartDiv"),
                         expandIconClass: "esri-icon-chart",
                         group: "top-left"
                     });
-                    yearsExpand = new Expand({
+                    monthsExpand = new Expand({
                         view: view,
-                        content: yearsElement,
+                        content: monthsElement,
                         expandIconClass: "esri-icon-filter",
                         group: "top-left"
                     });
-                    view.ui.add(yearsExpand, "top-left");
+                    view.ui.add(monthsExpand, "top-left");
                     view.ui.add(chartExpand, "top-left");
                     view.ui.add("titleDiv", "top-right");
                     return [4 /*yield*/, view.whenLayerView(layer)];
@@ -270,9 +264,9 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 case 4:
                     layerStats = _a.sent();
                     heatmapChart_1.updateGrid(layerStats, layerView);
-                    yearsElement.addEventListener("click", filterByYear);
-                    yearsNodes = document.querySelectorAll(".year-item");
-                    yearsExpand.watch("expanded", resetOnCollapse);
+                    monthsElement.addEventListener("click", filterByMonth);
+                    monthsNodes = document.querySelectorAll(".month-item");
+                    monthsExpand.watch("expanded", resetOnCollapse);
                     chartExpand.watch("expanded", resetOnCollapse);
                     highlight = null;
                     view.on("drag", ["Control"], eventListener);
