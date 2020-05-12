@@ -95,7 +95,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, queryTimeStatistics(layerView, queryOptions)];
                         case 2:
                             stats = _a.sent();
-                            heatmapChart_1.updateGrid(stats);
                             _a.label = 3;
                         case 3: return [2 /*return*/];
                     }
@@ -104,7 +103,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
         }
         function queryTimeStatistics(layerView, params) {
             return __awaiter(this, void 0, void 0, function () {
-                var geometry, distance, units, query, queryResponse, responseChartData;
+                var geometry, distance, units, query, queryResponse;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -133,14 +132,13 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                     value: feature.attributes.value
                                 };
                             });
-                            return [2 /*return*/, createDataObjects(responseChartData)];
                     }
                 });
             });
         }
         function queryLayerStatistics(layer) {
             return __awaiter(this, void 0, void 0, function () {
-                var query, queryResponse, responseChartData;
+                var query, queryResponse;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
