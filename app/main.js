@@ -122,16 +122,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             query.units = units;
                             query.returnQueryGeometry = true;
                             return [4 /*yield*/, layerView.queryFeatures(query)];
-                        case 1:
-                            queryResponse = _a.sent();
-                            responseChartData = queryResponse.features.map(function (feature) {
-                                var timeSpan = feature.attributes["EXPR_1"].split("-");
-                                var month = timeSpan[0];
-                                return {
-                                    month: month,
-                                    value: feature.attributes.value
-                                };
-                            });
                     }
                 });
             });
