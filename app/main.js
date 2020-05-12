@@ -201,14 +201,14 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 case 0:
                     layer = new FeatureLayer({
                         portalItem: {
-                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
+                            id: "39eaa391a04e497c8ece630609a5b01f"
                         },
                         outFields: ["MonthName"]
                     });
                     countiesLayer = new FeatureLayer({
                         title: "counties",
                         portalItem: {
-                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
+                            id: "39eaa391a04e497c8ece630609a5b01f"
                         },
                         popupTemplate: null,
                         opacity: 0,
