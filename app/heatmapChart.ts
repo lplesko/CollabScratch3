@@ -1,4 +1,4 @@
-import esri = __esri;
+/* import esri = __esri;
 import FeatureFilter = require("esri/views/layers/support/FeatureFilter");
 import Color = require("esri/Color");
 import { years, months } from "./constants";
@@ -138,3 +138,4 @@ function onCellSelect(cell:CellHighlight) {
 }
 
 addCanvasListeners();
+*/
