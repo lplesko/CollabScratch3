@@ -1,4 +1,4 @@
-define(["require", "exports", "esri/views/layers/support/FeatureFilter", "esri/Color", "./constants"], function (require, exports, FeatureFilter, Color, constants_1) {
+/* define(["require", "exports", "esri/views/layers/support/FeatureFilter", "esri/Color", "./constants"], function (require, exports, FeatureFilter, Color, constants_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var mousemoveEnabled = true;
@@ -111,3 +111,4 @@ define(["require", "exports", "esri/views/layers/support/FeatureFilter", "esri/C
     addCanvasListeners();
 });
 //# sourceMappingURL=heatmapChart.js.map
+*/
