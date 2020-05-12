@@ -156,32 +156,9 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, layer.queryFeatures(query)];
                         case 1:
                             queryResponse = _a.sent();
-                            responseChartData = queryResponse.features.map(function (feature) {
-                                var timeSpan = feature.attributes["EXPR_1"].split("-");
-                                var month = timeSpan[0];
-                                return {
-                                    month: month,
-                                    value: feature.attributes.value
-                                };
-                            });
-                            return [2 /*return*/, createDataObjects(responseChartData)];
                     }
                 });
             });
-        }
-        function createDataObjects(data) {
-            var formattedChartData = [];
-                constants_1.months.forEach(function (month, s) {
-                    var matches = data.filter(function (datum) {
-                        return datum.month === month;
-                    });
-                    formattedChartData.push({
-                        col: t,
-                        row: s,
-                        value: matches.length > 0 ? matches[0].value : 0
-                    });
-                });
-            return formattedChartData;
         }
         function resetVisuals() {
             layerView.filter = null;
@@ -193,9 +170,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             monthsNodes.forEach(function (node) {
                 node.classList.add("visible-month");
             });
-            heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, countiesLayer, map, view, monthsElement, chartExpand, monthsExpand, layerView, countiesLayerView, layerStats, monthsNodes, highlight, previousId, resetBtn;
+        var layer, countiesLayer, map, view, monthsElement, monthsExpand, layerView, countiesLayerView, layerStats, monthsNodes, highlight, previousId;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -239,12 +215,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     _a.sent();
                     monthsElement = document.getElementById("months-filter");
                     monthsElement.style.visibility = "visible";
-                    chartExpand = new Expand({
-                        view: view,
-                        content: document.getElementById("chartDiv"),
-                        expandIconClass: "esri-icon-chart",
-                        group: "top-left"
-                    });
                     monthsExpand = new Expand({
                         view: view,
                         content: monthsElement,
@@ -252,7 +222,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         group: "top-left"
                     });
                     view.ui.add(monthsExpand, "top-left");
-                    view.ui.add(chartExpand, "top-left");
                     view.ui.add("titleDiv", "top-right");
                     return [4 /*yield*/, view.whenLayerView(layer)];
                 case 2:
@@ -266,7 +235,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     monthsElement.addEventListener("click", filterByMonth);
                     monthsNodes = document.querySelectorAll(".month-item");
                     monthsExpand.watch("expanded", resetOnCollapse);
-                    chartExpand.watch("expanded", resetOnCollapse);
                     highlight = null;
                     view.on("drag", ["Control"], eventListener);
                     view.on("click", ["Control"], eventListener);
