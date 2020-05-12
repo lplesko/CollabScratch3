@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Food Bank Usage in Ontario (2016 - 2019)</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
+    <link rel="stylesheet" href="app/main.css">
+
+    <script>
+      var locationPath = location.pathname.replace(/\/[^\/]+$/, "");
+      window.dojoConfig = {
+        packages: [
+          {
+            name: "app",
+            location: locationPath + "/app"
+          }
+        ]
+      };
+    </script>
+    <script src="https://js.arcgis.com/4.11"></script>
+  </head>
+  <body>
+    <div id="years-filter">
+      <div class="year-item visible-year" data-year="2016">2016</div>
+      <div class="year-item visible-year" data-year="2017">2017</div>
+      <div class="year-item visible-year" data-year="2018">2018</div>
+      <div class="year-item visible-year" data-year="2019">2019</div>
+    </div>
+    <div id="viewDiv"></div>
+    <div id="chartDiv" class="chart-widget esri-widget">
+      <div class="grid-container">
+        <div class="canvas">
+          <canvas id="chartCanvas"></canvas>
+        </div>
+        <div class="col1 col-label">January</div>
+        <div class="col2 col-label">February</div>
+        <div class="col3 col-label">March</div>
+        <div class="col4 col-label">April</div>
+        <div class="row-label1 row-label">2016</div>
+        <div class="row-label2 row-label">2017</div>
+        <div class="row3 row-label">2018</div>
+        <div class="row4 row-label">2019</div>
+        <button class="esri-widget--button" id="resetBtn" type="button" title="Clear Filter">Reset</button>
+        <div id="titleDiv" class="esri-widget">
+          <div id="titleText">Food Bank Usage by Month</div>
+          <div id="dataDescription">Food Bank Usage in Ontario (2016 - 2019)</div>
+        </div>
+      </div>
+    </div>
+    <script>require(["app/main"]);</script>
+  </body>
+</html>
