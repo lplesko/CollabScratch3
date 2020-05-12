@@ -236,8 +236,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     highlight = null;
                     view.on("drag", ["Control"], eventListener);
                     view.on("click", ["Control"], eventListener);
-                    resetBtn = document.getElementById("resetBtn");
-                    resetBtn.addEventListener("click", resetVisuals);
                     return [2 /*return*/];
             }
         });
