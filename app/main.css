@@ -11,12 +11,13 @@ body, #viewDiv {
   background-color: white;
 }
 
-#resetBtn {
+/* #resetBtn {
   float: right;
   cursor: pointer;
   width: 100%;
   height: 100%;
 }
+*/
 
 #months-filter {
   height: 160px;
@@ -42,9 +43,10 @@ body, #viewDiv {
   background-color: rgba(50,50,50,0.9);
 }
 
-.chart-widget {
+/*.chart-widget {
   padding: 12px;
 }
+
 .grid-container {
   display: grid;
   grid-template-columns: 60px 75px 75px 75px 75px;
@@ -76,7 +78,7 @@ body, #viewDiv {
 .row-label2 { grid-area: row-label2; }
 .row3 { grid-area: row3; }
 .row4 { grid-area: row4; }
-
+*/
 #titleDiv {
  padding: 10px;
  background-color: rgba(50,50,50,0.9);
