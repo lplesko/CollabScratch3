@@ -12,7 +12,7 @@ import { SimpleRenderer } from "esri/renderers";
 import { updateGrid } from "./heatmapChart";
 
 import Expand = require("esri/widgets/Expand");
-import { months, years } from "./constants";
+import { months } from "./constants";
 
 ( async () => {
 
@@ -20,7 +20,7 @@ import { months, years } from "./constants";
     portalItem: {
       id: "3a8aae65f6d64c9dacce3049ebe32f0c"
     },
-    outFields: [ "MonthName", "YEAR" ]
+    outFields: [ "MonthName" ]
   });
 
   const countiesLayer = new FeatureLayer({
@@ -56,21 +56,21 @@ import { months, years } from "./constants";
   });
 
   await view.when();
-  const yearsElement = document.getElementById("years-filter");
-  yearsElement.style.visibility = "visible";
+  const monthsElement = document.getElementById("months-filter");
+  monthsElement.style.visibility = "visible";
   const chartExpand = new Expand({
     view,
     content: document.getElementById("chartDiv"),
     expandIconClass: "esri-icon-chart",
     group: "top-left"
   });
-  const yearsExpand = new Expand({
+  const monthsExpand = new Expand({
     view,
-    content: yearsElement,
+    content: monthsElement,
     expandIconClass: "esri-icon-filter",
     group: "top-left"
   });
-  view.ui.add(yearsExpand, "top-left");
+  view.ui.add(monthsExpand, "top-left");
   view.ui.add(chartExpand, "top-left");
   view.ui.add("titleDiv", "top-right");
 
@@ -80,26 +80,26 @@ import { months, years } from "./constants";
   const layerStats = await queryLayerStatistics(layer);
   updateGrid(layerStats, layerView);
   
-  yearsElement.addEventListener("click", filterByYear);
-  const yearsNodes = document.querySelectorAll(`.year-item`);
+  monthsElement.addEventListener("click", filterByMonth);
+  const monthsNodes = document.querySelectorAll(`.month-item`);
 
-  function filterByYear (event: any) {
-    const selectedYear = event.target.getAttribute("data-year");
-    yearsNodes.forEach( (node:HTMLDivElement) => {
-      const year = node.innerText;
-      if(year !== selectedYear){
-        if(node.classList.contains("visible-year")) {
-          node.classList.remove("visible-year");
+  function filterByMonth (event: any) {
+    const selectedMonth = event.target.getAttribute("data-month");
+    monthsNodes.forEach( (node:HTMLDivElement) => {
+      const month = node.innerText;
+      if(month !== selectedMonth){
+        if(node.classList.contains("visible-month")) {
+          node.classList.remove("visible-month");
         }
       } else {
-        if(!node.classList.contains("visible-year")) {
-          node.classList.add("visible-year");
+        if(!node.classList.contains("visible-month")) {
+          node.classList.add("visible-month");
         }
       }
     });
 
     layerView.filter = new FeatureFilter({
-      where: `Year = '${selectedYear}'`
+      where: `Month = '${selectedMonth}'`
     });
   }
 
@@ -109,7 +109,7 @@ import { months, years } from "./constants";
     }
   }
 
-  yearsExpand.watch("expanded", resetOnCollapse);
+  monthsExpand.watch("expanded", resetOnCollapse);
   chartExpand.watch("expanded", resetOnCollapse);
 
   let highlight:any = null;
@@ -168,7 +168,7 @@ import { months, years } from "./constants";
         statisticType: "count"
       })
     ];
-    query.groupByFieldsForStatistics = [ "YEAR + '-' + MonthName" ];
+    query.groupByFieldsForStatistics = [ "MonthName" ];
     query.geometry = geometry;
     query.distance = distance;
     query.units = units;
@@ -178,11 +178,9 @@ import { months, years } from "./constants";
 
     const responseChartData = queryResponse.features.map( feature => {
       const timeSpan = feature.attributes["EXPR_1"].split("-");
-      const year = timeSpan[0];
-      const month = timeSpan[1];
+      const month = timeSpan[0];
       return {
-        month,
-        year, 
+        month, 
         value: feature.attributes.value
       };
     });
@@ -198,17 +196,15 @@ import { months, years } from "./constants";
         statisticType: "count"
       })
     ];
-    query.groupByFieldsForStatistics = [ "YEAR + '-' + MonthName" ];
+    query.groupByFieldsForStatistics = [ "MonthName" ];
 
     const queryResponse = await layer.queryFeatures(query);
 
     const responseChartData = queryResponse.features.map( feature => {
       const timeSpan = feature.attributes["EXPR_1"].split("-");
-      const year = timeSpan[0];
-      const month = timeSpan[1];
+      const month = timeSpan[0];
       return {
-        month,
-        year, 
+        month, 
         value: feature.attributes.value
       };
     });
@@ -218,11 +214,10 @@ import { months, years } from "./constants";
   function createDataObjects(data: StatisticsResponse[]): ChartData[] {
     let formattedChartData: ChartData[] = [];
 
-    months.forEach( (month, t) => {
-      years.forEach( (year, s) => {
+      months.forEach( (month, s) => {
 
         const matches = data.filter( datum => {
-          return datum.year === year && datum.month === month;
+          return datum.month === month;
         });
 
         formattedChartData.push({
@@ -232,7 +227,6 @@ import { months, years } from "./constants";
         });
 
       });
-    });
 
     return formattedChartData;
   }
@@ -247,8 +241,8 @@ import { months, years } from "./constants";
       highlight.remove();
       highlight = null;
     }
-    yearsNodes.forEach( (node:HTMLDivElement) => {
-      node.classList.add("visible-year");
+    monthsNodes.forEach( (node:HTMLDivElement) => {
+      node.classList.add("visible-month");
     });
     updateGrid(layerStats, layerView, true);
   }
