@@ -263,7 +263,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     return [4 /*yield*/, queryLayerStatistics(layer)];
                 case 4:
                     layerStats = _a.sent();
-                    heatmapChart_1.updateGrid(layerStats, layerView);
                     monthsElement.addEventListener("click", filterByMonth);
                     monthsNodes = document.querySelectorAll(".month-item");
                     monthsExpand.watch("expanded", resetOnCollapse);
