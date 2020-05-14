@@ -228,7 +228,7 @@ import { months, years } from "./constants";
         formattedChartData.push({
           col: t,
           row: s,
-          value: MonthName
+          value: matches.length > 0 ? matches[0].value : 0
         });
 
       });
