@@ -101,64 +101,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 });
             });
         }
-        function queryTimeStatistics(layerView, params) {
-            return __awaiter(this, void 0, void 0, function () {
-                var geometry, distance, units, query, queryResponse;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            geometry = params.geometry, distance = params.distance, units = params.units;
-                            query = layerView.layer.createQuery();
-                            query.outStatistics = [
-                                new StatisticDefinition({
-                                    onStatisticField: "1",
-                                    outStatisticFieldName: "value",
-                                    statisticType: "count"
-                                })
-                            ];
-                            query.groupByFieldsForStatistics = ["MonthName"];
-                            query.geometry = geometry;
-                            query.distance = distance;
-                            query.units = units;
-                            query.returnQueryGeometry = true;
-                            return [4 /*yield*/, layerView.queryFeatures(query)];
-                    }
-                });
-            });
-        }
-        function queryLayerStatistics(layer) {
-            return __awaiter(this, void 0, void 0, function () {
-                var query, queryResponse;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            query = layer.createQuery();
-                            query.outStatistics = [
-                                new StatisticDefinition({
-                                    onStatisticField: "1",
-                                    outStatisticFieldName: "value",
-                                    statisticType: "count"
-                                })
-                            ];
-                            query.groupByFieldsForStatistics = ["MonthName"];
-                            return [4 /*yield*/, layer.queryFeatures(query)];
-                        case 1:
-                            queryResponse = _a.sent();
-                    }
-                });
-            });
-        }
-        function resetVisuals() {
-            layerView.filter = null;
-            layerView.effect = null;
-            if (highlight) {
-                highlight.remove();
-                highlight = null;
-            }
-            monthsNodes.forEach(function (node) {
-                node.classList.add("visible-month");
-            });
-        }
+
         var layer, countiesLayer, map, view, monthsElement, monthsExpand, layerView, countiesLayerView, layerStats, monthsNodes, highlight, previousId;
         return __generator(this, function (_a) {
             switch (_a.label) {
