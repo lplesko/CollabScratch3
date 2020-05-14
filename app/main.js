@@ -33,28 +33,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/views/layers/support/FeatureFilter", "esri/views/layers/support/FeatureEffect", "esri/tasks/support/StatisticDefinition", "esri/symbols", "esri/renderers", "esri/widgets/Expand", "./constants"], function (require, exports, EsriMap, MapView, FeatureLayer, FeatureFilter, FeatureEffect, StatisticDefinition, symbols_1, renderers_1, Expand, constants_1) {
+define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/views/layers/support/FeatureFilter", "esri/views/layers/support/FeatureEffect", "esri/tasks/support/StatisticDefinition", "esri/symbols", "esri/renderers", "./heatmapChart", "esri/widgets/Expand", "./constants"], function (require, exports, EsriMap, MapView, FeatureLayer, FeatureFilter, FeatureEffect, StatisticDefinition, symbols_1, renderers_1, heatmapChart_1, Expand, constants_1) {
     "use strict";
     var _this = this;
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(_this, void 0, void 0, function () {
-        function filterByMonth(event) {
-            var selectedMonth = event.target.getAttribute("data-month");
-            monthsNodes.forEach(function (node) {
-                var month = node.innerText;
-                if (month !== selectedMonth) {
-                    if (node.classList.contains("visible-month")) {
-                        node.classList.remove("visible-month");
+        function filterByYear(event) {
+            var selectedYear = event.target.getAttribute("data-year");
+            yearsNodes.forEach(function (node) {
+                var year = node.innerText;
+                if (year !== selectedYear) {
+                    if (node.classList.contains("visible-year")) {
+                        node.classList.remove("visible-year");
                     }
                 }
                 else {
-                    if (!node.classList.contains("visible-month")) {
-                        node.classList.add("visible-month");
+                    if (!node.classList.contains("visible-year")) {
+                        node.classList.add("visible-year");
                     }
                 }
             });
             layerView.filter = new FeatureFilter({
-                where: "Month = '" + selectedMonth + "'"
+                where: "Year = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -72,7 +72,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, view.hitTest(event)];
                         case 1:
                             hitResponse = _a.sent();
-                            hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === countiesLayer; });
+                            hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === districtsLayer; });
                             if (!(hitResults.length > 0)) return [3 /*break*/, 3];
                             graphic = hitResults[0].graphic;
                             if (!(previousId !== graphic.attributes.FID)) return [3 /*break*/, 3];
@@ -81,7 +81,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                 highlight.remove();
                                 highlight = null;
                             }
-                            highlight = countiesLayerView.highlight([previousId]);
+                            highlight = districtsLayerView.highlight([previousId]);
                             geometry = graphic && graphic.geometry;
                             queryOptions = {
                                 geometry: geometry,
@@ -95,27 +95,126 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, queryTimeStatistics(layerView, queryOptions)];
                         case 2:
                             stats = _a.sent();
+                            heatmapChart_1.updateGrid(stats);
                             _a.label = 3;
                         case 3: return [2 /*return*/];
                     }
                 });
             });
         }
-
-        var layer, countiesLayer, map, view, monthsElement, monthsExpand, layerView, countiesLayerView, layerStats, monthsNodes, highlight, previousId;
+        function queryTimeStatistics(layerView, params) {
+            return __awaiter(this, void 0, void 0, function () {
+                var geometry, distance, units, query, queryResponse, responseChartData;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            geometry = params.geometry, distance = params.distance, units = params.units;
+                            query = layerView.layer.createQuery();
+                            query.outStatistics = [
+                                new StatisticDefinition({
+                                    onStatisticField: "1",
+                                    outStatisticFieldName: "value",
+                                    statisticType: "count"
+                                })
+                            ];
+                            query.groupByFieldsForStatistics = ["Year + '-' + MonthName"];
+                            query.geometry = geometry;
+                            query.distance = distance;
+                            query.units = units;
+                            query.returnQueryGeometry = true;
+                            return [4 /*yield*/, layerView.queryFeatures(query)];
+                        case 1:
+                            queryResponse = _a.sent();
+                            responseChartData = queryResponse.features.map(function (feature) {
+                                var timeSpan = feature.attributes["EXPR_1"].split("-");
+                                var year = timeSpan[0];
+                                var month = timeSpan[1];
+                                return {
+                                    month: month,
+                                    year: year,
+                                    value: feature.attributes.value
+                                };
+                            });
+                            return [2 /*return*/, createDataObjects(responseChartData)];
+                    }
+                });
+            });
+        }
+        function queryLayerStatistics(layer) {
+            return __awaiter(this, void 0, void 0, function () {
+                var query, queryResponse, responseChartData;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            query = layer.createQuery();
+                            query.outStatistics = [
+                                new StatisticDefinition({
+                                    onStatisticField: "1",
+                                    outStatisticFieldName: "value",
+                                    statisticType: "count"
+                                })
+                            ];
+                            query.groupByFieldsForStatistics = ["Year + '-' + MonthName"];
+                            return [4 /*yield*/, layer.queryFeatures(query)];
+                        case 1:
+                            queryResponse = _a.sent();
+                            responseChartData = queryResponse.features.map(function (feature) {
+                                var timeSpan = feature.attributes["EXPR_1"].split("-");
+                                var year = timeSpan[0];
+                                var month = timeSpan[1];
+                                return {
+                                    month: month,
+                                    year: year,
+                                    value: feature.attributes.value
+                                };
+                            });
+                            return [2 /*return*/, createDataObjects(responseChartData)];
+                    }
+                });
+            });
+        }
+        function createDataObjects(data) {
+            var formattedChartData = [];
+            constants_1.months.forEach(function (month, s) {
+                constants_1.years.forEach(function (year, t) {
+                    var matches = data.filter(function (datum) {
+                        return datum.year === year && datum.month === month;
+                    });
+                    formattedChartData.push({
+                        col: t,
+                        row: s,
+                        value: matches.length > 0 ? matches[0].value : 0
+                    });
+                });
+            });
+            return formattedChartData;
+        }
+        function resetVisuals() {
+            layerView.filter = null;
+            layerView.effect = null;
+            if (highlight) {
+                highlight.remove();
+                highlight = null;
+            }
+            yearsNodes.forEach(function (node) {
+                node.classList.add("visible-year");
+            });
+            heatmapChart_1.updateGrid(layerStats, layerView, true);
+        }
+        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     layer = new FeatureLayer({
                         portalItem: {
-                            id: "39eaa391a04e497c8ece630609a5b01f"
+                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
                         },
-                        outFields: ["MonthName"]
-                    }); 
-                    countiesLayer = new FeatureLayer({
-                        title: "counties",
+                        outFields: ["MonthName", "Year"]
+                    });
+                    districtsLayer = new FeatureLayer({
+                        title: "districts",
                         portalItem: {
-                            id: "39eaa391a04e497c8ece630609a5b01f"
+                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
                         },
                         popupTemplate: null,
                         opacity: 0,
@@ -128,7 +227,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     });
                     map = new EsriMap({
                         basemap: "gray-vector",
-                        layers: [layer, countiesLayer]
+                        layers: [layer, districtsLayer]
                     });
                     view = new MapView({
                         map: map,
@@ -144,31 +243,42 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     return [4 /*yield*/, view.when()];
                 case 1:
                     _a.sent();
-                    monthsElement = document.getElementById("months-filter");
-                    monthsElement.style.visibility = "visible";
-                    monthsExpand = new Expand({
+                    yearsElement = document.getElementById("years-filter");
+                    yearsElement.style.visibility = "visible";
+                    chartExpand = new Expand({
                         view: view,
-                        content: monthsElement,
+                        content: document.getElementById("chartDiv"),
+                        expandIconClass: "esri-icon-chart",
+                        group: "top-left"
+                    });
+                    yearsExpand = new Expand({
+                        view: view,
+                        content: yearsElement,
                         expandIconClass: "esri-icon-filter",
                         group: "top-left"
                     });
-                    view.ui.add(monthsExpand, "top-left");
+                    view.ui.add(yearsExpand, "top-left");
+                    view.ui.add(chartExpand, "top-left");
                     view.ui.add("titleDiv", "top-right");
                     return [4 /*yield*/, view.whenLayerView(layer)];
                 case 2:
                     layerView = _a.sent();
-                    return [4 /*yield*/, view.whenLayerView(countiesLayer)];
+                    return [4 /*yield*/, view.whenLayerView(districtsLayer)];
                 case 3:
-                    countiesLayerView = _a.sent();
+                    districtsLayerView = _a.sent();
                     return [4 /*yield*/, queryLayerStatistics(layer)];
                 case 4:
                     layerStats = _a.sent();
-                    monthsElement.addEventListener("click", filterByMonth);
-                    monthsNodes = document.querySelectorAll(".month-item");
-                    monthsExpand.watch("expanded", resetOnCollapse);
+                    heatmapChart_1.updateGrid(layerStats, layerView);
+                    yearsElement.addEventListener("click", filterByYear);
+                    yearsNodes = document.querySelectorAll(".year-item");
+                    yearsExpand.watch("expanded", resetOnCollapse);
+                    chartExpand.watch("expanded", resetOnCollapse);
                     highlight = null;
                     view.on("drag", ["Control"], eventListener);
                     view.on("click", ["Control"], eventListener);
+                    resetBtn = document.getElementById("resetBtn");
+                    resetBtn.addEventListener("click", resetVisuals);
                     return [2 /*return*/];
             }
         });
