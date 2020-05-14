@@ -183,7 +183,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     formattedChartData.push({
                         col: t,
                         row: s,
-                        value: matches.length > 0 ? matches[0].value : 0
+                        value: MonthName
                     });
                 });
             });
