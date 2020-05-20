@@ -112,7 +112,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             query = layerView.layer.createQuery();
                             query.outStatistics = [
                                 new StatisticDefinition({
-                                    onStatisticField: "37",
+                                    onStatisticField: "Total_visits",
                                     outStatisticFieldName: "value",
                                     statisticType: "sum"
                                 })
@@ -149,7 +149,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             query = layer.createQuery();
                             query.outStatistics = [
                                 new StatisticDefinition({
-                                    onStatisticField: "37",
+                                    onStatisticField: "Total_visits",
                                     outStatisticFieldName: "value",
                                     statisticType: "sum"
                                 })
@@ -183,7 +183,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     formattedChartData.push({
                         col: t,
                         row: s,
-                        value: s
+                        value: matches.length > 0 ? matches[0].value : 0
                     });
                 });
             });
