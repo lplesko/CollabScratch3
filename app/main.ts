@@ -23,10 +23,24 @@ import { months, years } from "./constants";
     outFields: [ "MonthName", "Year" ]
   });
 
-
+  const districtsLayer = new FeatureLayer({
+    title: "districts",
+    portalItem: {
+      id: 3a8aae65f6d64c9dacce3049ebe32f0c"
+    },
+    popupTemplate: null,
+    opacity: 0,
+    renderer: new SimpleRenderer({
+      symbol: new SimpleFillSymbol({
+        color: [ 0,0,0,1 ],
+        outline: null
+      })
+    })
+  });
+  
   const map = new EsriMap({
     basemap: "gray-vector",
-    layers: [ layer ]
+    layers: [ layer, districtsLayer ]
   });
 
   const view = new MapView({
@@ -61,6 +75,7 @@ import { months, years } from "./constants";
   view.ui.add("titleDiv", "top-right");
 
   const layerView = await view.whenLayerView(layer) as esri.FeatureLayerView;
+  const districtsLayerView = await view.whenLayerView(districtsLayer) as esri.FeatureLayerView;
 
   const layerStats = await queryLayerStatistics(layer);
   updateGrid(layerStats, layerView);
