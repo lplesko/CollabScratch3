@@ -26,7 +26,7 @@ import { months, years } from "./constants";
   const districtsLayer = new FeatureLayer({
     title: "districts",
     portalItem: {
-      id: 3a8aae65f6d64c9dacce3049ebe32f0c"
+      id: "3a8aae65f6d64c9dacce3049ebe32f0c"
     },
     popupTemplate: null,
     opacity: 0,
@@ -37,7 +37,7 @@ import { months, years } from "./constants";
       })
     })
   });
-  
+
   const map = new EsriMap({
     basemap: "gray-vector",
     layers: [ layer, districtsLayer ]
@@ -118,8 +118,8 @@ import { months, years } from "./constants";
   let previousId: number;
   async function eventListener (event:any) {
     event.stopPropagation();
-  
-  const hitResponse = await view.hitTest(event);
+
+    const hitResponse = await view.hitTest(event);
     const hitResults = hitResponse.results.filter( hit => hit.graphic.layer === districtsLayer );
     if(hitResults.length > 0){
       const graphic = hitResults[0].graphic;
@@ -129,7 +129,7 @@ import { months, years } from "./constants";
           highlight.remove();
           highlight = null;
         }
-
+        
         highlight = districtsLayerView.highlight([previousId]);
         const geometry = graphic && graphic.geometry;
         let queryOptions = {
@@ -149,7 +149,7 @@ import { months, years } from "./constants";
       }
     }
   }
-  
+
   interface QueryTimeStatsParams {
     geometry?: esri.Geometry,
     distance?: number,
