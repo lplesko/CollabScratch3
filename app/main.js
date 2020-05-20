@@ -211,7 +211,22 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         },
                         outFields: ["MonthName", "Year"]
                     });
-
+                    
+                    districtsLayer = new FeatureLayer({
+                        title: "districts",
+                        portalItem: {
+                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
+                        },
+                        popupTemplate: null,
+                        opacity: 0,
+                        renderer: new renderers_1.SimpleRenderer({
+                            symbol: new symbols_1.SimpleFillSymbol({
+                                color: [0, 0, 0, 1],
+                                outline: null
+                            })
+                        })
+                    });
+                    
                     map = new EsriMap({
                         basemap: "gray-vector",
                         layers: [layer, districtsLayer]
