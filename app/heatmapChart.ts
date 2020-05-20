@@ -58,7 +58,7 @@ export function updateGrid(newData?: ChartData[], lv?: esri.FeatureLayerView, cl
 
     // Draw text
     ctx.fillStyle = "white";
-    ctx.strokeStyle = "#003E72";
+    ctx.strokeStyle = "#3F007D";
     // ctx.fill
     ctx.lineWidth = 4;
     ctx.textBaseline = "middle";
