@@ -212,6 +212,13 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         outFields: ["MonthName", "Year"]
                     });
                     
+                    allYearsLayer = new FeatureLayer({
+                        portalItem: {
+                            id: "c1c22edd96a4477ba505e222e176ba80"
+                        },
+                        outFields: ["YearString"]
+                    });
+                    
                     districtsLayer = new FeatureLayer({
                         title: "districts",
                         portalItem: {
