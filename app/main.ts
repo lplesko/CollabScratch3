@@ -228,7 +228,7 @@ import { months, years } from "./constants";
         formattedChartData.push({
           col: t,
           row: s,
-          value: months[s]
+          value: s
         });
 
       });
