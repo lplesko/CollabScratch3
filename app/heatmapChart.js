@@ -5,8 +5,8 @@ define(["require", "exports", "esri/views/layers/support/FeatureFilter", "esri/C
     var highlighted = null;
     var layerView = null;
     var data = [];
-    var start = new Color("#eaf5ff");
-    var end = new Color("#003E72");
+    var start = new Color("#FCFBFD");
+    var end = new Color("#3F007D");
     var numCols = 4;
     var numRows = 12;
     function normalize(value, minValue, maxValue) {
@@ -46,7 +46,7 @@ define(["require", "exports", "esri/views/layers/support/FeatureFilter", "esri/C
             ctx.fillRect(col * cellWidth, row * cellHeight, cellWidth, cellHeight);
             // Draw text
             ctx.fillStyle = "white";
-            ctx.strokeStyle = "#003E72";
+            ctx.strokeStyle = "#3F007D";
             // ctx.fill
             ctx.lineWidth = 4;
             ctx.textBaseline = "middle";
