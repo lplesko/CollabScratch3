@@ -53,8 +53,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     }
                 }
             });
-            allYearsLayerView.filter = new FeatureFilter({
-                where: "YearString = '" + selectedYear + "'"
+            layerView.filter = new FeatureFilter({
+                where: "Year = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -201,7 +201,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, allYearsLayer, districtsLayer, mainMap, view, yearsElement, chartExpand, yearsExpand, layerView, allYearsLayerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -210,13 +210,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             id: "3a8aae65f6d64c9dacce3049ebe32f0c"
                         },
                         outFields: ["MonthName", "Year"]
-                    });
-                    
-                    allYearsLayer = new FeatureLayer({
-                        portalItem: {
-                            id: "c1c22edd96a4477ba505e222e176ba80"
-                        },
-                        outFields: ["YearString"]
                     });
                     
                     districtsLayer = new FeatureLayer({
@@ -234,12 +227,12 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         })
                     });
                     
-                    mainMap = new EsriMap({
+                    map = new EsriMap({
                         basemap: "gray-vector",
                         layers: [layer, districtsLayer]
                     });
                     view = new MapView({
-                        map: mainMap,
+                        map: map,
                         container: "viewDiv",
                         center: [-85, 50],
                         zoom: 4,
