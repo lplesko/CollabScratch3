@@ -23,6 +23,13 @@ import { months, years } from "./constants";
     outFields: [ "MonthName", "Year" ]
   });
 
+  const allYearsLayer = new FeatureLayer({
+    portalItem: {
+      id: "c1c22edd96a4477ba505e222e176ba80"
+    },
+    outFields: [ "YearString" ]
+  });
+  
   const districtsLayer = new FeatureLayer({
     title: "districts",
     portalItem: {
@@ -40,7 +47,7 @@ import { months, years } from "./constants";
 
   const map = new EsriMap({
     basemap: "gray-vector",
-    layers: [ layer, districtsLayer ]
+    layers: [ layer, allYearsLayer, districtsLayer ]
   });
 
   const view = new MapView({
@@ -75,6 +82,7 @@ import { months, years } from "./constants";
   view.ui.add("titleDiv", "top-right");
 
   const layerView = await view.whenLayerView(layer) as esri.FeatureLayerView;
+  const allYearsLayerView  await view.whenLayerView(allYearsLayer) as esri.FeatureLayerView;
   const districtsLayerView = await view.whenLayerView(districtsLayer) as esri.FeatureLayerView;
 
   const layerStats = await queryLayerStatistics(layer);
@@ -98,8 +106,8 @@ import { months, years } from "./constants";
       }
     });
 
-    layerView.filter = new FeatureFilter({
-      where: `Year = '${selectedYear}'`
+    allYearsLayerView.filter = new FeatureFilter({
+      where: `YearString = '${selectedYear}'`
     });
   }
 
