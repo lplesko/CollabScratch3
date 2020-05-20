@@ -10,8 +10,8 @@ let layerView: esri.FeatureLayerView = null;
 
 let data: ChartData[] = [];
 
-const start = new Color("#eaf5ff");
-const end = new Color("#003E72");
+const start = new Color("#FCFBFD");
+const end = new Color("#3F007D");
 const numCols = 4;
 const numRows = 12;
 
