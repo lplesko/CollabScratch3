@@ -161,7 +161,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var layer, map, view, yearsElement, chartExpand, yearsExpand, layerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -171,23 +171,9 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         },
                         outFields: ["MonthName", "Year"]
                     });
-                    districtsLayer = new FeatureLayer({
-                        title: "districts",
-                        portalItem: {
-                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
-                        },
-                        popupTemplate: null,
-                        opacity: 0,
-                        renderer: new renderers_1.SimpleRenderer({
-                            symbol: new symbols_1.SimpleFillSymbol({
-                                color: [0, 0, 0, 1],
-                                outline: null
-                            })
-                        })
-                    });
                     map = new EsriMap({
                         basemap: "gray-vector",
-                        layers: [layer, districtsLayer]
+                        layers: [layer]
                     });
                     view = new MapView({
                         map: map,
@@ -221,12 +207,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     view.ui.add(chartExpand, "top-left");
                     view.ui.add("titleDiv", "top-right");
                     return [4 /*yield*/, view.whenLayerView(layer)];
-                case 2:
-                    layerView = _a.sent();
-                    return [4 /*yield*/, view.whenLayerView(districtsLayer)];
-                case 3:
-                    districtsLayerView = _a.sent();
-                    return [4 /*yield*/, queryLayerStatistics(layer)];
                 case 4:
                     layerStats = _a.sent();
                     heatmapChart_1.updateGrid(layerStats, layerView);
