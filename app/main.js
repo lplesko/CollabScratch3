@@ -125,7 +125,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, layerView.queryFeatures(query)];
                         case 1:
                             queryResponse = _a.sent();
-                            responseChartData = queryResponse.features.monthlyMap(function (feature) {
+                            responseChartData = queryResponse.features.map(function (feature) {
                                 var timeSpan = feature.attributes["EXPR_1"].split("-");
                                 var year = timeSpan[0];
                                 var month = timeSpan[1];
@@ -158,7 +158,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, layer.queryFeatures(query)];
                         case 1:
                             queryResponse = _a.sent();
-                            responseChartData = queryResponse.features.monthlyMap(function (feature) {
+                            responseChartData = queryResponse.features.map(function (feature) {
                                 var timeSpan = feature.attributes["EXPR_1"].split("-");
                                 var year = timeSpan[0];
                                 var month = timeSpan[1];
