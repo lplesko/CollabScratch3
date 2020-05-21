@@ -201,7 +201,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, districtsLayer, annualLayer, monthlyMap, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, annualLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var layer, districtsLayer, annualLayer, monthlyMap, annualMap, mapArray, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, annualLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -238,8 +238,16 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         basemap: "gray-vector",
                         layers: [layer, districtsLayer]
                     });
+                    
+                    annualMap = new EsriMap({
+                        basemap: "grey-vector",
+                        layers: [annualLayer]
+                    });
+                    
+                    mapArray = [annualMap, monthlyMap];
+                        
                     view = new MapView({
-                        map: monthlyMap,
+                        map: mapArray[0],
                         container: "viewDiv",
                         center: [-85, 50],
                         zoom: 4,
