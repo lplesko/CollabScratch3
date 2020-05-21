@@ -26,7 +26,7 @@ import { months, years } from "./constants";
   const districtsLayer = new FeatureLayer({
     title: "districts",
     portalItem: {
-      id: "3a8aae65f6d64c9dacce3049ebe32f0c"
+      id: "c1c22edd96a4477ba505e222e176ba80"
     },
     popupTemplate: null,
     opacity: 0,
@@ -99,7 +99,7 @@ import { months, years } from "./constants";
     });
 
     layerView.filter = new FeatureFilter({
-      where: `Year = '${selectedYear}'`
+      where: `YearString = '${selectedYear}'`
     });
   }
 
