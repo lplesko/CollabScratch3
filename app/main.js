@@ -54,7 +54,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 }
             });
             annualLayerView.filter = new FeatureFilter({
-                where: "Year = '" + selectedYear + "'"
+                where: "YearString = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -236,7 +236,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     
                     map = new EsriMap({
                         basemap: "gray-vector",
-                        layers: [layer, districtsLayer, annualLayer]
+                        layers: [annualLayer, layer, districtsLayer]
                     });
                     view = new MapView({
                         map: map,
