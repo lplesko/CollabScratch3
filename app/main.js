@@ -62,7 +62,46 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 resetVisuals();
             }
         }
-        
+        function eventListener(event) {
+            return __awaiter(this, void 0, void 0, function () {
+                var hitResponse, hitResults, graphic, geometry, queryOptions, filterOptions, stats;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            event.stopPropagation();
+                            return [4 /*yield*/, view.hitTest(event)];
+                        case 1:
+                            hitResponse = _a.sent();
+                            hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === districtsLayer; });
+                            if (!(hitResults.length > 0)) return [3 /*break*/, 3];
+                            graphic = hitResults[0].graphic;
+                            if (!(previousId !== graphic.attributes.FID)) return [3 /*break*/, 3];
+                            previousId = graphic.attributes.FID;
+                            if (highlight) {
+                                highlight.remove();
+                                highlight = null;
+                            }
+                            highlight = districtsLayerView.highlight([previousId]);
+                            geometry = graphic && graphic.geometry;
+                            queryOptions = {
+                                geometry: geometry,
+                                spatialRelationship: "intersects"
+                            };
+                            filterOptions = new FeatureFilter(queryOptions);
+                            layerView.effect = new FeatureEffect({
+                                filter: filterOptions,
+                                excludedEffect: "grayscale(90%) opacity(15%)"
+                            });
+                            return [4 /*yield*/, queryTimeStatistics(layerView, queryOptions)];
+                        case 2:
+                            stats = _a.sent();
+                            heatmapChart_1.updateGrid(stats);
+                            _a.label = 3;
+                        case 3: return [2 /*return*/];
+                    }
+                });
+            });
+        }
         function queryTimeStatistics(layerView, params) {
             return __awaiter(this, void 0, void 0, function () {
                 var geometry, distance, units, query, queryResponse, responseChartData;
@@ -162,7 +201,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, resetBtn;
+        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -238,6 +277,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     yearsExpand.watch("expanded", resetOnCollapse);
                     chartExpand.watch("expanded", resetOnCollapse);
                     highlight = null;
+                    view.on("drag", ["Control"], eventListener);
+                    view.on("click", ["Control"], eventListener);
                     resetBtn = document.getElementById("resetBtn");
                     resetBtn.addEventListener("click", resetVisuals);
                     return [2 /*return*/];
