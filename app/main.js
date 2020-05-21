@@ -69,7 +69,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     switch (_a.label) {
                         case 0:
                             event.stopPropagation();
-                            return [4 /*yield*/, monthlyView.hitTest(event)];
+                            return [4 /*yield*/, view.hitTest(event)];
                         case 1:
                             hitResponse = _a.sent();
                             hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === districtsLayer; });
@@ -266,13 +266,13 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         expandIconClass: "esri-icon-filter",
                         group: "top-left"
                     });
-                    monthlyView.ui.add(yearsExpand, "top-left");
-                    monthlyView.ui.add(chartExpand, "top-left");
-                    monthlyView.ui.add("titleDiv", "top-right");
-                    return [4 /*yield*/, monthlyView.whenLayerView(layer)];
+                    view.ui.add(yearsExpand, "top-left");
+                    view.ui.add(chartExpand, "top-left");
+                    view.ui.add("titleDiv", "top-right");
+                    return [4 /*yield*/, view.whenLayerView(layer)];
                 case 2:
                     layerView = _a.sent();
-                    return [4 /*yield*/, monthlyView.whenLayerView(districtsLayer)];
+                    return [4 /*yield*/, view.whenLayerView(districtsLayer)];
                 case 3:
                     districtsLayerView = _a.sent();
                     return [4 /*yield*/, queryLayerStatistics(layer)];
@@ -284,8 +284,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     yearsExpand.watch("expanded", resetOnCollapse);
                     chartExpand.watch("expanded", resetOnCollapse);
                     highlight = null;
-                    monthlyView.on("drag", ["Control"], eventListener);
-                    monthlyView.on("click", ["Control"], eventListener);
+                    view.on("drag", ["Control"], eventListener);
+                    view.on("click", ["Control"], eventListener);
                     resetBtn = document.getElementById("resetBtn");
                     resetBtn.addEventListener("click", resetVisuals);
                     return [2 /*return*/];
