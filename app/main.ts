@@ -112,43 +112,6 @@ import { months, years } from "./constants";
   yearsExpand.watch("expanded", resetOnCollapse);
   chartExpand.watch("expanded", resetOnCollapse);
 
-  let highlight:any = null;
-  view.on("drag", ["Control"], eventListener);
-  view.on("click", ["Control"], eventListener);
-  let previousId: number;
-  async function eventListener (event:any) {
-    event.stopPropagation();
-
-    const hitResponse = await view.hitTest(event);
-    const hitResults = hitResponse.results.filter( hit => hit.graphic.layer === districtsLayer );
-    if(hitResults.length > 0){
-      const graphic = hitResults[0].graphic;
-      if(previousId !== graphic.attributes.FID){
-        previousId = graphic.attributes.FID;
-        if (highlight) {
-          highlight.remove();
-          highlight = null;
-        }
-        
-        highlight = districtsLayerView.highlight([previousId]);
-        const geometry = graphic && graphic.geometry;
-        let queryOptions = {
-          geometry,
-          spatialRelationship: "intersects"
-        };
-
-        const filterOptions = new FeatureFilter(queryOptions);
-
-        layerView.effect = new FeatureEffect({
-          filter: filterOptions,
-          excludedEffect: "grayscale(90%) opacity(15%)"
-        });
-
-        const stats = await queryTimeStatistics(layerView, queryOptions);
-        updateGrid(stats);
-      }
-    }
-  }
 
   interface QueryTimeStatsParams {
     geometry?: esri.Geometry,
