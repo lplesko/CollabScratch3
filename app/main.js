@@ -53,7 +53,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     }
                 }
             });
-            layerView.filter = new FeatureFilter({
+            districtsLayerView.filter = new FeatureFilter({
                 where: "YearString = '" + selectedYear + "'"
             });
         }
