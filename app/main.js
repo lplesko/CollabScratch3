@@ -53,8 +53,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     }
                 }
             });
-            annualLayerView.filter = new FeatureFilter({
-                where: "YearString = '" + selectedYear + "'"
+            layerView.filter = new FeatureFilter({
+                where: "Year = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -72,7 +72,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, view.hitTest(event)];
                         case 1:
                             hitResponse = _a.sent();
-                            hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === layer; });
+                            hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === districtsLayer; });
                             if (!(hitResults.length > 0)) return [3 /*break*/, 3];
                             graphic = hitResults[0].graphic;
                             if (!(previousId !== graphic.attributes.FID)) return [3 /*break*/, 3];
@@ -81,7 +81,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                 highlight.remove();
                                 highlight = null;
                             }
-                            highlight = layerView.highlight([previousId]);
+                            highlight = districtsLayerView.highlight([previousId]);
                             geometry = graphic && graphic.geometry;
                             queryOptions = {
                                 geometry: geometry,
@@ -201,7 +201,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, annualLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, annualLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -209,7 +209,14 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         portalItem: {
                             id: "3a8aae65f6d64c9dacce3049ebe32f0c"
                         },
-                        outFields: ["MonthName", "Year"],
+                        outFields: ["MonthName", "Year"]
+                    });
+                    
+                    districtsLayer = new FeatureLayer({
+                        title: "districts",
+                        portalItem: {
+                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
+                        },
                         popupTemplate: null,
                         opacity: 0,
                         renderer: new renderers_1.SimpleRenderer({
@@ -218,18 +225,11 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                 outline: null
                             })
                         })
-                    });                   
-                    
-                    annualLayer = new FeatureLayer({
-                        portalItem: {
-                            id: "c1c22edd96a4477ba505e222e176ba80"
-                        },
-                        outFields: ["YearString"]
                     });
                     
                     map = new EsriMap({
                         basemap: "gray-vector",
-                        layers: [layer, annualLayer]
+                        layers: [layer, districtsLayer]
                     });
                     view = new MapView({
                         map: map,
@@ -237,9 +237,9 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         center: [-85, 50],
                         zoom: 4,
                         highlightOptions: {
-                            color: "262626",
+                            color: "#262626",
                             haloOpacity: 1,
-                            fillOpacity: null
+                            fillOpacity: 0
                         }
                     });
                     return [4 /*yield*/, view.when()];
