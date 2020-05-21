@@ -237,9 +237,9 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         center: [-85, 50],
                         zoom: 4,
                         highlightOptions: {
-                            color: "#262626",
-                            haloOpacity: 1,
-                            fillOpacity: 0
+                            color: null,
+                            haloOpacity: null,
+                            fillOpacity: null
                         }
                     });
                     return [4 /*yield*/, view.when()];
