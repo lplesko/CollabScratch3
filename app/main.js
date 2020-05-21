@@ -53,8 +53,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     }
                 }
             });
-            districtsLayerView.filter = new FeatureFilter({
-                where: "YearString = '" + selectedYear + "'"
+            layerView.filter = new FeatureFilter({
+                where: "Year = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -215,7 +215,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     districtsLayer = new FeatureLayer({
                         title: "districts",
                         portalItem: {
-                            id: "c1c22edd96a4477ba505e222e176ba80"
+                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
                         },
                         popupTemplate: null,
                         opacity: 0,
@@ -229,7 +229,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     
                     map = new EsriMap({
                         basemap: "gray-vector",
-                        layers: [districtsLayer, layer]
+                        layers: [layer, districtsLayer]
                     });
                     view = new MapView({
                         map: map,
