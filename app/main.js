@@ -53,8 +53,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     }
                 }
             });
-            layerView.filter = new FeatureFilter({
-                where: "Year = '" + selectedYear + "'"
+            annualLayerView.filter = new FeatureFilter({
+                where: "YearString = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
