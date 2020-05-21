@@ -240,7 +240,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                     });
                     
                     annualMap = new EsriMap({
-                        basemap: "grey-vector",
+                        basemap: "gray-vector",
                         layers: [annualLayer]
                     });
                     
