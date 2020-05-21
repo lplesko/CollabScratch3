@@ -72,7 +72,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                             return [4 /*yield*/, view.hitTest(event)];
                         case 1:
                             hitResponse = _a.sent();
-                            hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === districtsLayer; });
+                            hitResults = hitResponse.results.filter(function (hit) { return hit.graphic.layer === layer; });
                             if (!(hitResults.length > 0)) return [3 /*break*/, 3];
                             graphic = hitResults[0].graphic;
                             if (!(previousId !== graphic.attributes.FID)) return [3 /*break*/, 3];
@@ -81,7 +81,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                 highlight.remove();
                                 highlight = null;
                             }
-                            highlight = districtsLayerView.highlight([previousId]);
+                            highlight = layerView.highlight([previousId]);
                             geometry = graphic && graphic.geometry;
                             queryOptions = {
                                 geometry: geometry,
@@ -201,7 +201,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var annualLayer, layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, annualLayerView, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var annualLayer, layer, map, view, yearsElement, chartExpand, yearsExpand, annualLayerView, layerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -216,15 +216,8 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         portalItem: {
                             id: "3a8aae65f6d64c9dacce3049ebe32f0c"
                         },
-                        outFields: ["MonthName", "Year"]
-                    });
-                    
-                    districtsLayer = new FeatureLayer({
-                        title: "districts",
-                        portalItem: {
-                            id: "3a8aae65f6d64c9dacce3049ebe32f0c"
-                        },
-                        popupTemplate: null,
+                        outFields: ["MonthName", "Year"],
+                                                popupTemplate: null,
                         opacity: 0,
                         renderer: new renderers_1.SimpleRenderer({
                             symbol: new symbols_1.SimpleFillSymbol({
@@ -232,11 +225,11 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                                 outline: null
                             })
                         })
-                    });
+                    });                   
                     
                     map = new EsriMap({
                         basemap: "gray-vector",
-                        layers: [annualLayer, layer, districtsLayer]
+                        layers: [annualLayer, layer]
                     });
                     view = new MapView({
                         map: map,
