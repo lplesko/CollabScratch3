@@ -236,7 +236,11 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         container: "viewDiv",
                         center: [-85, 50],
                         zoom: 4,
-
+                        highlightOptions: {
+                            color: "#262626",
+                            haloOpacity: 1,
+                            fillOpacity: 0
+                        }
                     });
                     return [4 /*yield*/, view.when()];
                 case 1:
