@@ -54,7 +54,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 }
             });
             annualLayerView.filter = new FeatureFilter({
-                where: "Year = '" + selectedYear + "'"
+                where: "YearString = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -201,7 +201,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var layer, districtsLayer, annualLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, annualLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -227,9 +227,16 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         })
                     });
                     
+                    annualLayer = new FeatureLayer({
+                        portalItem: {
+                            id: "c1c22edd96a4477ba505e222e176ba80"
+                        },
+                        outFields: ["YearString"]
+                    });
+                    
                     map = new EsriMap({
                         basemap: "gray-vector",
-                        layers: [layer, districtsLayer]
+                        layers: [layer, districtsLayer, annualLayer]
                     });
                     view = new MapView({
                         map: map,
