@@ -42,7 +42,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             var selectedYear = event.target.getAttribute("data-year");
             yearsNodes.forEach(function (node) {
                 var year = node.innerText;
-                if (year !== selectedYear) {
+                if (YearString !== selectedYear) {
                     if (node.classList.contains("visible-year")) {
                         node.classList.remove("visible-year");
                     }
