@@ -39,7 +39,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(_this, void 0, void 0, function () {
         function filterByYear(event) {
-            var selectedYear = event.target.getAttribute("data-year");
+            var selectedYear = event.target.getAttribute("data-YearString");
             yearsNodes.forEach(function (node) {
                 var year = node.innerText;
                 if (year !== selectedYear) {
