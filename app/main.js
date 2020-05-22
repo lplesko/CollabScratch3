@@ -54,7 +54,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                 }
             });
             annualLayerView.filter = new FeatureFilter({
-                where: "YearString = '" + selectedYear + "'"
+                where: "Year = '" + selectedYear + "'"
             });
         }
         function resetOnCollapse(expanded) {
@@ -201,7 +201,7 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
             });
             heatmapChart_1.updateGrid(layerStats, layerView, true);
         }
-        var layer, districtsLayer, annualLayer, twoMaps, annualMap, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, annualLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
+        var layer, districtsLayer, map, view, yearsElement, chartExpand, yearsExpand, layerView, districtsLayerView, layerStats, yearsNodes, highlight, previousId, resetBtn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -227,33 +227,12 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/Fea
                         })
                     });
                     
-                    annualLayer = new FeatureLayer({
-                        portalItem: {
-                            id: "c1c22edd96a4477ba505e222e176ba80"
-                        },
-                        outFields: ["YearString"]
-                    });
-                    
-                    annualMap = new EsriMap({
-                        basemap: "gray-vector",
-                        layers: [annualLayer, districtsLayer]
-                    });
-                    
                     map = new EsriMap({
                         basemap: "gray-vector",
                         layers: [layer, districtsLayer]
                     });
-                    
-                    twoMaps = twoMapIDs.map(function(mapID) {
-                        return new twoMap({
-                            portalItem: {
-                                id: mapID
-                            }
-                        });
-                    });             
-                    
                     view = new MapView({
-                        map: twoMaps[0],
+                        map: map,
                         container: "viewDiv",
                         center: [-85, 50],
                         zoom: 4,
